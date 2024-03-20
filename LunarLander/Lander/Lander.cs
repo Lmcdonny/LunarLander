@@ -11,12 +11,18 @@ namespace LunarLander.Lander
         private float m_orientation = (float)Math.PI / 4; // in Degrees
         private Rectangle m_model;
         private Vector2 m_position;
-        private float GRAVITY = 1;
+        private float GRAVITY = 1f;
+
         public Lander() 
         {
             m_position = new Vector2(50, 50);
             m_velocity = Vector2.Zero;
-            m_model = new Rectangle((int)m_position.X, (int)m_position.Y, 40, 30); // Do I even need this anymore?
+            m_model = new Rectangle((int)m_position.X, (int)m_position.Y, 40, 30);
+        }
+
+        public Rectangle GetRectangle()
+        {
+            return m_model;
         }
         public float GetOrientation()
         {
@@ -44,12 +50,15 @@ namespace LunarLander.Lander
             // Update X and Y position using velocity and deltaTime
             m_position += m_velocity;
 
-            //m_model = new Rectangle((int)m_position.X, (int)m_position.Y, 40, 30);
+            m_model = new Rectangle((int)m_position.X, (int)m_position.Y, 30, 20);
         }
         private void UpdateOrientation(TimeSpan deltaTime, int multiplier) //multiplier parameter controls rotation direction
         {
             float rotationSpeed = (float)Math.PI;
             m_orientation += rotationSpeed * (float)deltaTime.TotalSeconds * multiplier;
+            if (m_orientation > Math.PI * 2) m_orientation -= (float)(Math.PI * 2);
+            else if (m_orientation < 0) m_orientation += (float)(Math.PI * 2);
+
         }
 
         private void ParseCommands(TimeSpan deltaTime, Keys[] keys)
@@ -92,7 +101,7 @@ namespace LunarLander.Lander
                 scale: 1f,
                 effects: SpriteEffects.None,
                 layerDepth: 0
-                ); //overload with orientation
+                );
         }
     }
 }

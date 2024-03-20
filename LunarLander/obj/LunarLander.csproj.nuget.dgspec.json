@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\liamh\\source\\repos\\LunarLander\\LunarLander\\LunarLander.csproj": {}
+    "/Users/liam/LunarLander/LunarLander/LunarLander.csproj": {}
   },
   "projects": {
-    "C:\\Users\\liamh\\source\\repos\\LunarLander\\LunarLander\\LunarLander.csproj": {
+    "/Users/liam/LunarLander/LunarLander/LunarLander.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\liamh\\source\\repos\\LunarLander\\LunarLander\\LunarLander.csproj",
+        "projectUniqueName": "/Users/liam/LunarLander/LunarLander/LunarLander.csproj",
         "projectName": "LunarLander",
-        "projectPath": "C:\\Users\\liamh\\source\\repos\\LunarLander\\LunarLander\\LunarLander.csproj",
-        "packagesPath": "C:\\Users\\liamh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\liamh\\source\\repos\\LunarLander\\LunarLander\\obj\\",
+        "projectPath": "/Users/liam/LunarLander/LunarLander/LunarLander.csproj",
+        "packagesPath": "/Users/liam/.nuget/packages/",
+        "outputPath": "/Users/liam/LunarLander/LunarLander/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\liamh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/liam/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.314/RuntimeIdentifierGraph.json"
         }
       }
     }

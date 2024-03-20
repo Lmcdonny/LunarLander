@@ -11,10 +11,11 @@ namespace LunarLander
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Lander.Lander _lander = new Lander.Lander();
+        private Lander.Lander _lander;
         private Texture2D _texture;
         private DateTime _lastUpdate;
         private Terrain _terrain;
+        private HeadsUpDisplay _hud;
 
         public Game1()
         {
@@ -30,6 +31,9 @@ namespace LunarLander
 
             _terrain = new Terrain(_graphics);
             _terrain.GenerateTerrain();
+            _lander = new Lander.Lander();
+            _hud = new HeadsUpDisplay();
+            
 
             base.Initialize();
         }
@@ -54,6 +58,10 @@ namespace LunarLander
                 Exit();
 
             // TODO: Add your update logic here
+            if (Utility.DetectCollision(_lander.GetRectangle(), _terrain.GetVerts()))
+            {
+                Initialize();
+            }
             TimeSpan deltaTime = DateTime.Now - _lastUpdate;
 
             // Input Parsing
@@ -61,6 +69,9 @@ namespace LunarLander
 
             // Lander Update
             _lander.Update(deltaTime, keys);
+            // HUD Update
+            _hud.UpdateIndicators(_lander);
+
             base.Update(gameTime);
 
             // Update _lastUpdate
@@ -75,9 +86,50 @@ namespace LunarLander
             _spriteBatch.Begin();
             _lander.Draw(_texture, _spriteBatch);
             _terrain.Draw(_texture, _spriteBatch);
+            _hud.Draw(_texture, _spriteBatch);
             base.Draw(gameTime);
 
             _spriteBatch.End();
+        }
+    }
+
+    class Utility
+    {
+        public static bool DetectCollision(Rectangle lander, List<Vector3> ground)
+        {
+            for (int i = 0; i < ground.Count - 1; i++)
+            {
+                // Create a line segment from the two points
+                LineSegment line = new LineSegment(ground[i], ground[i + 1]);
+
+                // Check for intersection between the line segment and the rectangle
+                if (lander.Intersects(line.ToRectangle())) return true;
+            }
+            return false;
+        }
+    }
+
+    // Custom LineSegment class to represent a line segment
+    class LineSegment
+    {
+        public Vector3 Start { get; }
+        public Vector3 End { get; }
+
+        public LineSegment(Vector3 start, Vector3 end)
+        {
+            Start = start;
+            End = end;
+        }
+
+        // Convert the line segment to a rectangle for intersection check
+        public Rectangle ToRectangle()
+        {
+            int x = (int)Math.Min(Start.X, End.X);
+            int y = (int)Math.Min(Start.Y, End.Y);
+            int width = (int)Math.Abs(Start.X - End.X);
+            int height = (int)Math.Abs(Start.Y - End.Y);
+
+            return new Rectangle(x, y, width, height);
         }
     }
 }
