@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/liamh/Documents/LunarLander/LunarLander/Content/DefaultFont.spritefont","C:/Users/liamh/Documents/LunarLander/LunarLander/Content/bin/DesktopGL/DefaultFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21535,0.1934721
+"C:/Users/liamh/Documents/LunarLander/LunarLander/Content/lander.png","C:/Users/liamh/Documents/LunarLander/LunarLander/Content/bin/DesktopGL/lander.xnb","TextureProcessor","Texture2DContent",357,4885,0.1168591

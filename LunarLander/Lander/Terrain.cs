@@ -15,7 +15,7 @@ namespace LunarLander.Lander
         private const int ITERATIONS = 4;
         private List<Vector3> m_verts;
         Random rnd = new Random();
-        Rectangle m_landingZone;
+        private Rectangle m_landingZone;
 
         public Terrain(GraphicsDeviceManager graphics)
         {
@@ -40,6 +40,11 @@ namespace LunarLander.Lander
             };
         }
 
+        public Rectangle GetLandingZone()
+        {
+            return m_landingZone;
+        }
+
         public List<Vector3> GetVerts()
         {
             return m_verts;
@@ -49,7 +54,7 @@ namespace LunarLander.Lander
         private List<Vector3> ModifyTerrain(Vector3 start, Vector3 end, int iterations)
         {
             List<Vector3> verts = new List<Vector3>();
-            if (iterations <= 0) 
+            if (iterations <= 0)
             {
                 return verts;
             }
@@ -67,7 +72,7 @@ namespace LunarLander.Lander
             verts.AddRange(ModifyTerrain(start, midpoint, iterations - 1));
             verts.Add(midpoint);
             verts.AddRange(ModifyTerrain(midpoint, end, iterations - 1));
-            
+
             return verts;
         }
         public void GenerateTerrain()
@@ -109,7 +114,7 @@ namespace LunarLander.Lander
 
             m_vertsTriStrip = m_vertsTriStrip.Reverse().ToArray();
 
-            
+
         }
 
         public void Draw(Texture2D texture, SpriteBatch sb)
@@ -118,6 +123,7 @@ namespace LunarLander.Lander
             {
                 // This is the all-important line that sets the effect, and all of its settings, on the graphics device
                 pass.Apply();
+                
                 m_graphics.GraphicsDevice.DrawUserIndexedPrimitives(
                     PrimitiveType.TriangleStrip,
                     m_vertsTriStrip, 0, m_vertsTriStrip.Length,

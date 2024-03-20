@@ -12,11 +12,18 @@ namespace LunarLander.Lander
 		private const int MAX_LANDING_SPEED = 2;
 		private const float MAX_LANDING_ORIENTATION = (float)(Math.PI / 36); // 5 degree margin of error
 		private Color WarningLight = Color.Red;
+		private SpriteFont m_font;
+		private float m_win = 0;
 
 		public HeadsUpDisplay()
 		{
 			int width = GraphicsDeviceManager.DefaultBackBufferWidth;
 			SafeLandingIndicator = new Rectangle(width - 60, 30, 30, 30);
+		}
+
+		public void LoadContent(SpriteFont font)
+		{
+			m_font = font;
 		}
 
 		private bool IsSafe(Lander lander)
@@ -27,16 +34,37 @@ namespace LunarLander.Lander
 
 			return true;
 		}
-		public void UpdateIndicators(Lander lander)
+		public void GameWin()
+		{
+			m_win = 5f;
+		}
+		private void UpdateIndicators(Lander lander)
 		{
 			Safe = IsSafe(lander);
             WarningLight = Safe == true ?  Color.Green : Color.Red;
 		}
 
+		public void Update(TimeSpan deltaTime, Lander lander)
+		{
+			if (m_win > 0)
+			{
+				m_win -= (float)deltaTime.TotalSeconds;
+			}
+			UpdateIndicators(lander);
+		}
+
 		public void Draw(Texture2D texture, SpriteBatch sb)
 		{
 			sb.Draw(texture, SafeLandingIndicator, WarningLight);
-		}
+            if (m_win > 0)
+            {
+                sb.DrawString(
+					m_font,
+					"Congrats!",
+					new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth - 350, 40),
+					Color.Black);
+            }
+        }
 	}
 }
 

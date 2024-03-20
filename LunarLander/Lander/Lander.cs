@@ -12,12 +12,18 @@ namespace LunarLander.Lander
         private Rectangle m_model;
         private Vector2 m_position;
         private float GRAVITY = 1f;
+        private Texture2D m_texture;
 
-        public Lander() 
+        public Lander()
         {
             m_position = new Vector2(50, 50);
             m_velocity = Vector2.Zero;
             m_model = new Rectangle((int)m_position.X, (int)m_position.Y, 40, 30);
+        }
+
+        public void LoadContent(Texture2D landerTexture)
+        {
+            m_texture = landerTexture;
         }
 
         public Rectangle GetRectangle()
@@ -33,14 +39,14 @@ namespace LunarLander.Lander
             return m_velocity;
         }
         private void UpdateVelocity(TimeSpan deltaTime, int thrustMultiplier) //thustMultiplier is 1 or 0 based on user input
-        { 
+        {
             double gravity = GRAVITY * deltaTime.TotalSeconds; // Calculate gravity using seconds
             m_velocity.Y += (float)gravity; // Update Y velocity with gravity
 
             const float THRUSTPOWER = 5f;
             float totalThrust = THRUSTPOWER * thrustMultiplier * (float)deltaTime.TotalSeconds;
             Vector2 thrust = new Vector2(
-                (float)Math.Cos(m_orientation - Math.PI / 2) * totalThrust, 
+                (float)Math.Cos(m_orientation - Math.PI / 2) * totalThrust,
                 (float)Math.Sin(m_orientation - Math.PI / 2) * totalThrust
                 );
             m_velocity += thrust;
@@ -88,14 +94,14 @@ namespace LunarLander.Lander
             UpdatePosition(deltaTime);
         }
 
-        public void Draw(Texture2D texture, SpriteBatch sb)
+        public void Draw(SpriteBatch sb)
         {
-            Vector2 origin = new Vector2(m_model.Width / 2, m_model.Height / 2); 
+            Vector2 origin = new Vector2(m_model.Width / 2, m_model.Height / 2);
             sb.Draw(
-                texture: texture, 
-                position: m_position, 
+                texture: m_texture,
+                position: m_position,
                 sourceRectangle: null,
-                color: Color.Black,
+                color: Color.White,
                 rotation: m_orientation,
                 origin: origin,
                 scale: 1f,

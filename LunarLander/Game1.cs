@@ -16,6 +16,7 @@ namespace LunarLander
         private DateTime _lastUpdate;
         private Terrain _terrain;
         private HeadsUpDisplay _hud;
+        private SpriteFont _font;
 
         public Game1()
         {
@@ -33,7 +34,7 @@ namespace LunarLander
             _terrain.GenerateTerrain();
             _lander = new Lander.Lander();
             _hud = new HeadsUpDisplay();
-            
+
 
             base.Initialize();
         }
@@ -43,11 +44,14 @@ namespace LunarLander
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            _lander.LoadContent(this.Content.Load<Texture2D>("lander"));
+            _hud.LoadContent(this.Content.Load<SpriteFont>("DefaultFont"));
             _texture = new Texture2D(GraphicsDevice, 40, 30);
+
             Color[] colorData = new Color[40 * 30];
             for (int i = 0; i < colorData.Length; i++)
             {
-                colorData[i] = Color.Red;
+                colorData[i] = Color.White;
             }
             _texture.SetData(colorData);
         }
@@ -58,7 +62,11 @@ namespace LunarLander
                 Exit();
 
             // TODO: Add your update logic here
-            if (Utility.DetectCollision(_lander.GetRectangle(), _terrain.GetVerts()))
+            if (Utility.DetectWin(_lander.GetRectangle(), _terrain.GetLandingZone()))
+            {
+                _hud.GameWin();
+            }
+            else if (Utility.DetectCollision(_lander.GetRectangle(), _terrain.GetVerts()))
             {
                 Initialize();
             }
@@ -70,7 +78,7 @@ namespace LunarLander
             // Lander Update
             _lander.Update(deltaTime, keys);
             // HUD Update
-            _hud.UpdateIndicators(_lander);
+            _hud.Update(deltaTime, _lander);
 
             base.Update(gameTime);
 
@@ -84,7 +92,7 @@ namespace LunarLander
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _lander.Draw(_texture, _spriteBatch);
+            _lander.Draw(_spriteBatch);
             _terrain.Draw(_texture, _spriteBatch);
             _hud.Draw(_texture, _spriteBatch);
             base.Draw(gameTime);
@@ -104,6 +112,18 @@ namespace LunarLander
 
                 // Check for intersection between the line segment and the rectangle
                 if (lander.Intersects(line.ToRectangle())) return true;
+            }
+            return false;
+        }
+
+        public static bool DetectWin(Rectangle lander, Rectangle landingZone)
+        {
+            if (lander.X >= landingZone.X && lander.X + lander.Width < landingZone.X + landingZone.Width)
+            {
+                if (lander.Y + lander.Height >= landingZone.Y)
+                {
+                    return true;
+                }
             }
             return false;
         }
